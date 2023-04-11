@@ -16,13 +16,6 @@ function registerValidation(data) {
       'any.required' : '1011'
     }),
 
-    nickName: joi.string().required().min(4).messages({
-      'string.min' : '3001',
-      'string.empty' : '3001',
-      'string.max' : '3001',
-      'any.required' : '1017'
-    }),
-
     phone: joi.string().min(10).required().max(13).messages({
       'string.min' : '1003',
       'string.empty' : '1003',
