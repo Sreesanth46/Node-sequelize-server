@@ -69,7 +69,18 @@ exports.addAccount = async (req, res, next) => {
 }
 
 exports.listAll = async (req, res, next) => {
-    const user = await User.findAll({ where: { companyId: req.user.companyId } });
+    const user = await User.findAll({
+        where: {
+            [Op.and]: [
+                { companyId: req.user.companyId },
+                { status: { [Op.ne]: 99 } }]
+        },
+        include: {
+            model: Login,
+            as: 'auth',
+            attributes: ['role', 'passwordChange', 'lastLogin'],
+        }
+    });
     return res.status(200).json(user)
 }
 
