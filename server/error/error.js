@@ -5,4 +5,11 @@ const createError = (status, message) => {
     return err
 }
 
-module.exports = { createError }
+const throwErrorCode = (message) => {
+    const err = new Error()
+    err.errorCode = message.split(" | ")[0]
+    err.message = message.split(" | ")[1]
+    return err
+}
+
+module.exports = { createError, throwErrorCode }
