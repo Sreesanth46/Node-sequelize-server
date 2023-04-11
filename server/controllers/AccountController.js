@@ -2,6 +2,7 @@ const db = require('../models')
 const User = db.user_master
 const Login = db.login_master
 const Company = db.company_master
+const template = require('../views/template')
 const { generatePassword } = require('../utils/generatePassword')
 const { throwErrorCode } = require('../error/error')
 const { Op } = require('sequelize');
@@ -202,4 +203,25 @@ exports.searchAccount = async (req, res, next) => {
     if (user == null) return res.status(404).json(throwErrorCode("2007 | AccountId / Nickname / EmailId not found"))
 
     return res.status(200).json(user)
+}
+
+exports.resetPassword = async (req, res, next) => {
+
+    const login = await Login.findOne({ where: { accountId: req.body.accountId } })
+    if (login == null) return res.status(404).json(throwErrorCode("4007 | Account does not exist"))
+
+    const generatedPassword = generatePassword();
+    const encryptedPassword = await bcrypt.hash(generatedPassword, 10);
+    const datetime = new Date();
+
+    await login.update({
+        password: encryptedPassword,
+        passwordChange: datetime
+    })
+
+    const mailBody = template.resetPassword(login.accountId, generatedPassword)
+    const subject = `Password reset`
+    nodeMailer.sendMail(mailBody, login.email, subject)
+    return res.status(200).json({ message: "Password reset" })
+
 }
