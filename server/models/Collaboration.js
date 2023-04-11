@@ -17,14 +17,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-
-    // Collaboration.associate = (models) => {
-    //     Collaboration.hasMany(models.item_master, {
-    //         foreignKey: 'CollaborationId',
-    //         // as: 'item_master',
-    //         onDelete: "cascade"
-    //     });
-    // };
     
     return Collaboration;
 }

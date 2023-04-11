@@ -18,17 +18,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         firstName: {
             type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            
         },
         lastName: {
             type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+  
         },
         nickName: {
             type: DataTypes.STRING(100),
@@ -44,10 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         phone: {
             type: DataTypes.STRING(50),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+     
         },
         disclosure: {
             type: DataTypes.TINYINT,
@@ -59,19 +50,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         disallowCollaboration: {
             type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 1,
-            validate: {
-                notEmpty: true
-            }
         },
         profileEditing: {
             type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 1,
-            validate: {
-                notEmpty: true
-            }
         },
         version: {
             type: DataTypes.INTEGER,
@@ -94,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
     Users.associate = (models) => {
         Users.hasOne(models.login_master, {
             foreignKey: 'userId',
-            // as: 'login_master',
+            as: 'auth',
             onDelete: "cascade"
         });
 

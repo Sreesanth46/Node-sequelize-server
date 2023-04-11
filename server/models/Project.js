@@ -120,10 +120,15 @@ module.exports = (sequelize, DataTypes) => {
 
         Project.hasMany(models.item_master, {
             foreignKey: 'projectId',
-            // as: 'item_master',
+            // as: 'project',
             onDelete: "cascade"
         });
+
+        Project.belongsTo(models.workspace_master, {
+            foreignKey: 'workspaceId',
+            as: 'workspace',
+        });
     };
-    
+
     return Project;
 }

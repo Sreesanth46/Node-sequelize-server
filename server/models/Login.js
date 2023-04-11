@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Login = sequelize.define("login_master", {
         accountId: {
             type: DataTypes.STRING(100),
+            unique: true,
             allowNull: false,
             validate: {
                 notEmpty: true
@@ -9,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
+            unique: true,
             allowNull: false,
             validate: {
                 notEmpty: true
