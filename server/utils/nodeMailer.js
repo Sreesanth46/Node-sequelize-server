@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 exports.sendMail = async (htmlBody, sendTo, subject) => {
     let mailOptions = {
-      from: 'annotationtool46@gmail.com',
+      from: 'Annotation Tool <annotationtool46@gmail.com>',
       to: sendTo,
       subject: subject,
       html: htmlBody,
