@@ -5,6 +5,7 @@ const db = require('../models')
 const Login  = db.login_master
 const User  = db.user_master
 const { Op } = require("sequelize");
+const { createError } = require('../error/error')
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "SecretKey"
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || "SecretKey"
@@ -32,4 +33,13 @@ exports.login = async (req, res, next) => {
     } else {
         return res.status(403).send("Forbidden")
     }
+}
+
+exports.verifyToken = async (req, res, next) => {
+    if(!req.body.accessToken) return res.status(400).send("No Token")
+    const token = req.body.accessToken
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if(err) return next(createError(401, "Token is invalid"))
+        return res.status(200).json(user)
+    })
 }
