@@ -236,3 +236,26 @@ exports.resetPassword = async (req, res, next) => {
     return res.status(200).json({ message: "Password reset" })
 
 }
+
+exports.findById = async (req, res) => {
+
+    const user = await User.findOne({
+        where: {
+            [Op.and]: [
+                { id: req.params.id },
+                { companyId: req.user.companyId },
+                { status: { [Op.ne]: 99 } }]
+        },
+        include: {
+            model: Login,
+            as: 'auth',
+            attributes: ['role', 'passwordChange', 'lastLogin'],
+        }
+    });
+    if (user == null) return res.status(404).json(throwErrorCode("4007 | Account does not exist"))
+
+    const company = await Company.findOne({ where: { id: user.companyId } })
+    if (company == null) return res.status(404).json(throwErrorCode("4007 | Account does not exist"))
+
+    return res.status(200).json({ user, company });
+}
