@@ -10,18 +10,22 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.sendMail = async (htmlBody, sendTo, subject) => {
-    let mailOptions = {
-      from: 'Annotation Tool <annotationtool46@gmail.com>',
-      to: sendTo,
-      subject: subject,
-      html: htmlBody,
-    };
-        
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+  if (!process.env.NODE_MAILER) {
+    return null;
+  }
+
+  let mailOptions = {
+    from: 'Annotation Tool <annotationtool46@gmail.com>',
+    to: sendTo,
+    subject: subject,
+    html: htmlBody,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 }
