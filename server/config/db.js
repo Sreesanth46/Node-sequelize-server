@@ -8,12 +8,4 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD
 })
 
-// let sql = 'SELECT * FROM job;'
-
-// pool.execute(sql, function (err,res) {
-//     if(err) throw err
-
-//     console.log(res)
-// })
-
 module.exports = pool.promise()
