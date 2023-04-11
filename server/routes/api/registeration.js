@@ -7,8 +7,8 @@ router.post('/signup', registerationController.signUp)
 
 router.get('/signup/verify', registerationController.verifyToken)
 
-router.get('/user', registerationController.findUserByEmail)
+router.post('/user', registerationController.findUserByEmail)
 
-router.get('/company', registerationController.findCompanyByEmail)
+router.post('/company', registerationController.findCompanyByEmail)
 
 module.exports = router

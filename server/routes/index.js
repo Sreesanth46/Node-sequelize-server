@@ -10,4 +10,6 @@ router.use('/project', require('./authenticated/project'))
 
 router.use('/profile', require('./authenticated/profile'))
 
+router.use('/notification', require('./authenticated/notification'))
+
 module.exports = router
