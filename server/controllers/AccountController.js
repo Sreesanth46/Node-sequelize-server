@@ -17,7 +17,7 @@ exports.addAccount = async (req, res, next) => {
 
     // TODO: validation and error handling
 
-    if(req.user.role < req.body.role) return res.status(403).json({message: "You cannot add an Owner"});
+    if(req.user.role > req.body.role) return res.status(403).json({message: "You cannot add an Owner"});
  
     let user = await User.findOne({ where: {
         [Op.or]: [{email: req.body.email}, {accountId: req.body.email}]
@@ -67,7 +67,7 @@ exports.listAll = async (req, res, next) => {
 
 exports.editAccount = async (req, res, next) => {
 
-    if(req.user.role < req.body.role) return res.status(403).json({message: "Forbidden"});
+    if(req.user.role > req.body.role) return res.status(403).json({message: "Forbidden"});
 
     // TODO: Validation and error messages
 
@@ -98,7 +98,7 @@ exports.editAccount = async (req, res, next) => {
             disallowCollaboration: req.body.disallowCollaboration,
             profileEditing: req.body.profileEditing
         }, {
-            where: { id: req.params.id },
+            // where: { id: req.params.id },
             transaction: t
         });
 
@@ -107,7 +107,7 @@ exports.editAccount = async (req, res, next) => {
             email: req.body.email,
             role: req.body.role
         }, {
-            where: { id: login.id },
+            // where: { id: login.id },
             transaction: t
         });
 
@@ -124,7 +124,7 @@ exports.editAccount = async (req, res, next) => {
 
 exports.deleteAccount = async (req, res, next) => {
 
-    if(req.user.role < req.body.role) return res.status(403).json({message: "Forbidden"});
+    if(req.user.role > req.body.role) return res.status(403).json({message: "Forbidden"});
 
     const user = await User.findOne({ where: { id: req.params.id }});
     if(user == null) return res.status(400).json({message: "user not found"});

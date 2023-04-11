@@ -32,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         nickName: {
             type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
         },
         profilePic: {
             type: DataTypes.STRING,
@@ -61,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
-        disallowCollabration: {
+        disallowCollaboration: {
             type: DataTypes.TINYINT,
             allowNull: false,
             defaultValue: 1,
