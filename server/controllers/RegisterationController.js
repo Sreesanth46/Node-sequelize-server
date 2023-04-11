@@ -81,7 +81,6 @@ exports.register = async (req, res, next) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phone: req.body.phone,
-            nickName: req.body.nickName
         }, { transaction: t });
 
         await Login.create({
