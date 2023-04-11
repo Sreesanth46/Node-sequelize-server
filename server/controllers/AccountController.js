@@ -3,22 +3,13 @@ const User = db.user_master
 const Login = db.login_master
 const Company = db.company_master
 const { generatePassword } = require('../utils/generatePassword')
+const { throwErrorCode } = require('../error/error')
+const { Op } = require('sequelize');
+
 
 exports.addAccount = async (req, res, next) => {
 
     // TODO: validation and error handling
-
-    if (req.user.role > req.body.role) return res.status(403).json({ message: "You cannot add an Owner" });
-
-    let user = await User.findOne({
-        where: {
-            [Op.or]: [{ email: req.body.email }, { accountId: req.body.email }]
-        }
-    });
-    if (user != null) return res.status(400).json({ message: "Account already exists with that email or accountId" });
-
-    const generatedPassword = generatePassword()
-    const encryptedPassword = await bcrypt.hash(generatedPassword, 10)
 
     const {
         nickName,
@@ -27,10 +18,23 @@ exports.addAccount = async (req, res, next) => {
         jobTitle,
         email,
         disallowCollaboration,
-        profileEditing
+        profileEditing,
+        role
     } = req.body
 
     const { companyId } = req.user
+
+    if (req.user.role > role) return res.status(403).json({ message: "You cannot add an Owner" });
+
+    let user = await User.findOne({
+        where: {
+            [Op.or]: [{ email: email }, { accountId: email }]
+        }
+    });
+    if (user != null) return res.status(400).json({ message: "Account already exists with that email or accountId" });
+
+    const generatedPassword = generatePassword()
+    const encryptedPassword = await bcrypt.hash(generatedPassword, 10)
 
     const t = await db.sequelize.transaction();
     try {
@@ -70,16 +74,26 @@ exports.listAll = async (req, res, next) => {
 
 exports.editAccount = async (req, res, next) => {
 
-    if (req.user.role > req.body.role) return res.status(403).json({ message: "Forbidden" });
-
     // TODO: Validation and error messages
 
-    let emailChanged = false;
-    let accountIdChanaged = false;
+    const {
+        nickName,
+        accountId,
+        department,
+        jobTitle,
+        email,
+        disallowCollaboration,
+        profileEditing,
+        role
+    } = req.body
+
+    if (req.user.role > role) return res.status(403).json({ message: "Forbidden" });
+
+    let emailChanged = false, accountIdChanaged = false;
 
     let user = await User.findOne({
         where: {
-            [Op.or]: [{ email: req.body.email }, { accountId: req.body.email }]
+            [Op.or]: [{ email: email }, { accountId: email }]
         }
     });
     if (user != null) return res.status(400).json({ message: "Account already exists with that email or accountId" });
@@ -92,24 +106,23 @@ exports.editAccount = async (req, res, next) => {
     if (user.accountId != req.body.accountId) accountIdChanaged = true;
 
     const t = await db.sequelize.transaction();
-
     try {
         await user.update({
-            nickName: req.body.nickName,
-            accountId: req.body.accountId,
-            department: req.body.department,
-            jobTitle: req.body.jobTitle,
-            email: req.body.email,
-            disallowCollaboration: req.body.disallowCollaboration,
-            profileEditing: req.body.profileEditing
+            nickName,
+            accountId,
+            department,
+            jobTitle,
+            email,
+            disallowCollaboration,
+            profileEditing
         }, {
             transaction: t
         });
 
         await login.update({
-            accountId: req.body.accountId,
-            email: req.body.email,
-            role: req.body.role
+            accountId,
+            email,
+            role
         }, {
             transaction: t
         });
@@ -159,4 +172,34 @@ exports.deleteAccount = async (req, res, next) => {
     }
 
     return res.status(200).json({ message: "User deleted successfully", user });
+}
+
+exports.searchAccount = async (req, res, next) => {
+
+    const { search } = req.body
+
+    const user = await User.findAll({
+        where: {
+            [Op.and]: [
+                { status: { [Op.ne]: 99 } },
+                { companyId: req.user.companyId },
+                {
+                    [Op.or]: [
+                        { email: { [Op.like]: `%${search}%` } },
+                        { accountId: { [Op.like]: `%${search}%` } },
+                        { nickName: { [Op.like]: `%${search}%` } }
+                    ]
+                }
+            ]
+        },
+        include: {
+            model: Login,
+            as: 'auth',
+            attributes: ['role', 'passwordChange', 'lastLogin'],
+        }
+    });
+
+    if (user == null) return res.status(404).json(throwErrorCode("2007 | AccountId / Nickname / EmailId not found"))
+
+    return res.status(200).json(user)
 }
