@@ -1,10 +1,13 @@
 const router = require('express').Router();
 
-router.all('/', (req, res) => {
-    res.send("Route path").status(200)
-})
-
 router.use('/login', require('./api/login'))
+
 router.use('/register', require('./api/registeration'))
+
+router.use('/workspace', require('./authenticated/workspace'))
+
+router.use('/project', require('./authenticated/project'))
+
+router.use('/profile', require('./authenticated/profile'))
 
 module.exports = router

@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         collabration: {
             type: DataTypes.TINYINT,
-            allowNull: false,
             defaultValue: 0,
             validate: {
                 notEmpty: true
@@ -61,7 +60,43 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'companyId',
             // as: 'user_master',
             onDelete: "cascade"
-        })
+        });
+
+        Company.hasMany(models.workspace_master, {
+            foreignKey: 'companyId',
+            // as: 'workspace_master',
+            onDelete: "cascade"
+        });
+
+        Company.hasMany(models.step_group, {
+            foreignKey: 'companyId',
+            // as: 'step_group',
+            onDelete: "cascade"
+        });
+
+        Company.hasMany(models.label_group, {
+            foreignKey: 'companyId',
+            // as: 'label_group',
+            onDelete: "cascade"
+        });
+
+        Company.hasMany(models.label, {
+            foreignKey: 'companyId',
+            // as: 'label',
+            onDelete: "cascade"
+        });
+
+        Company.hasMany(models.collaboration, {
+            foreignKey: 'companyId1',
+            // as: 'label',
+            onDelete: "cascade"
+        });
+
+        Company.hasMany(models.collaboration, {
+            foreignKey: 'companyId2',
+            // as: 'label',
+            onDelete: "cascade"
+        });
     };
     
     return Company;

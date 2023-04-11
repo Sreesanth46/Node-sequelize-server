@@ -9,7 +9,7 @@ function registerValidation(data) {
     firstName: joi.string().min(4).required(),
     lastName: joi.string().min(4).required(),
     accountId: joi.string().min(4).required(),
-    email: joi.string().min(4).email().required(),
+    email: joi.string().min(4).email(),
     password: joi.string().min(7).required(),
   });
   return schema.validate(data);

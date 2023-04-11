@@ -1,86 +1,102 @@
 module.exports = (sequelize, DataTypes) => {
-    const Users = sequelize.define("user_master", {
-        accountId: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            unique: true,
-            validate: {
-                notEmpty: true
-            }
-        },
-        email: {
+    const Project = sequelize.define("project_master", {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
             validate: {
                 notEmpty: true
             }
         },
-        firstName: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        },
-        lastName: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        },
-        nickName: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        },
-        profilePic: {
+        outline: {
             type: DataTypes.STRING,
         },
-        department: {
-            type: DataTypes.STRING(100),
+        file: {
+            type: DataTypes.STRING,
         },
-        jobTitle: {
-            type: DataTypes.STRING(100),
-        },
-        phone: {
-            type: DataTypes.STRING(50),
+        assigneeFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 1,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        disclosure: {
+        dueDateFlag: {
             type: DataTypes.TINYINT,
-            allowNull: false,
             defaultValue: 1,
+            allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        disallowCollabration: {
+        priorityFlag: {
             type: DataTypes.TINYINT,
-            allowNull: false,
             defaultValue: 1,
+            allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        profileEditing: {
+        stepFag: {
             type: DataTypes.TINYINT,
-            allowNull: false,
             defaultValue: 1,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        tagsFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 1,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        memoFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 1,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        displayNameFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 1,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        companyNameFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 0,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        departmentNameFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 0,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        companyCodeFlag: {
+            type: DataTypes.TINYINT,
+            defaultValue: 0,
+            allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
         version: {
             type: DataTypes.INTEGER,
-            defaultValue: 0,
             allowNull: false,
+            defaultValue: 0,
             validate: {
                 notEmpty: true
             }
@@ -94,38 +110,20 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-    
-    Users.associate = (models) => {
-        Users.hasOne(models.login_master, {
-            foreignKey: 'userId',
-            // as: 'login_master',
-            onDelete: "cascade"
-        });
 
-        Users.hasMany(models.workspace_admin, {
-            foreignKey: 'userId',
-            // as: 'workspace_admin',
-            onDelete: "cascade"
-        });
-
-        Users.hasMany(models.project_member, {
-            foreignKey: 'userId',
+    Project.associate = (models) => {
+        Project.hasMany(models.project_member, {
+            foreignKey: 'projectId',
             // as: 'project_member',
             onDelete: "cascade"
         });
 
-        Users.hasMany(models.comment, {
-            foreignKey: 'userId',
-            // as: 'comment',
-            onDelete: "cascade"
-        });
-
-        Users.hasMany(models.comment_annotation, {
-            foreignKey: 'userId',
-            // as: 'comment_annotation',
+        Project.hasMany(models.item_master, {
+            foreignKey: 'projectId',
+            // as: 'item_master',
             onDelete: "cascade"
         });
     };
-
-    return Users
+    
+    return Project;
 }

@@ -17,7 +17,7 @@ exports.verifyMail = (url) => {
                         <div class="content" style="font-family: sans-serif; font-size: 100%; line-height: 1.6em; display: block; margin: 0 auto; padding: 0;">
                             <table style="font-family: sans-serif; font-size: 100%; line-height: 1.6em; width: 100%; margin: 0; padding: 0; text-align: center;">
                                 <tr style="font-family: sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
-                                    <td align="center" style="font-family: sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0; text-align: center;"><img style="Margin-top:25px;; Margin-bottom:0; Margin-left:auto; Margin-right:auto;" src="cid:logo-black-md" /></td>
+                                    <td align="center" style="font-family: sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0; text-align: center;"></td>
                                 </tr>
                             </table>
                         </div>
