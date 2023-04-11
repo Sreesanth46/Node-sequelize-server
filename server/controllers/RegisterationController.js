@@ -15,9 +15,6 @@ const secretKey = "SecretKey"
 
 exports.signUp = async (req, res, next) => {
 
-    const { error, value } = registerValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
     let user = { email: req.body.email, message: `Please signup using the link below` }
     jwt.sign( {user}, secretKey, {expiresIn: '1h'}, (err, token) => {
         const url = `http://localhost/register/${token}`
@@ -31,6 +28,10 @@ exports.signUp = async (req, res, next) => {
 }
 
 exports.register = async (req, res, next) => {
+
+    const { error, value } = registerValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    
     await Company.create({
         name: req.body.name,
         remaining_account: 10,
@@ -77,7 +78,8 @@ exports.register = async (req, res, next) => {
         await Login.create({
             accountId: user.accountId,
             email: user.email,
-            password: encryptedPassword
+            password: encryptedPassword,
+            userId: user.id
         }).catch((err) => {
             if(err) {
                 console.log(err);

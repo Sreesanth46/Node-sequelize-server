@@ -105,7 +105,7 @@ module.exports = (sequelize, DataTypes) => {
     
     Users.associate = (models) => {
         Users.hasOne(models.login_master, {
-            foreignKey: 'user_id',
+            foreignKey: 'userId',
             // as: 'login_master',
             onDelete: "cascade"
         })

@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Company.associate = (models) => {
         Company.hasMany(models.user_master, {
-            foreignKey: 'company_id',
+            foreignKey: 'companyId',
             // as: 'user_master',
             onDelete: "cascade"
         })

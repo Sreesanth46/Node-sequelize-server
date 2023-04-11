@@ -1,12 +1,12 @@
 const router = require('express').Router()
-const signUpController = require('../../controllers/SignUpController')
+const registerationController = require('../../controllers/RegisterationController')
 
-router.get('/', signUpController.register)
+router.post('/', registerationController.register)
 
-router.post('/signup', signUpController.signUp)
+router.post('/signup', registerationController.signUp)
 
-router.get('/user', signUpController.findUserByEmail)
+router.get('/user', registerationController.findUserByEmail)
 
-router.get('/company', signUpController.findCompanyByEmail)
+router.get('/company', registerationController.findCompanyByEmail)
 
 module.exports = router
