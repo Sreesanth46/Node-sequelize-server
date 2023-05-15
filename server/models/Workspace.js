@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     Workspace.associate = (models) => {
         Workspace.hasMany(models.project_master, {
             foreignKey: 'workspaceId',
-            // as: 'project_master',
+            as: 'project',
             onDelete: "cascade"
         });
 
@@ -45,6 +45,6 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "cascade"
         })
     };
-    
+
     return Workspace;
 }
