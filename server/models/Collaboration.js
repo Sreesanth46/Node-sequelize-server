@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Collaboration = sequelize.define("collaboration", {
+    return sequelize.define("collaboration", {
         version: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -17,6 +17,5 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-    
-    return Collaboration;
+
 }
