@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Notification = sequelize.define("notification_master", {
+    return sequelize.define("notification_master", {
         message: {
             type: DataTypes.TEXT('long'),
             allowNull: false,
@@ -30,6 +30,4 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-    
-    return Notification;
 }

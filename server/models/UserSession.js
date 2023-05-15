@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const UserSession = sequelize.define("user_session", {
+    return sequelize.define("user_session", {
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -22,6 +22,4 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-
-    return UserSession;
 }

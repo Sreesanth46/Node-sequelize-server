@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const WorkspaceAdmin = sequelize.define("workspace_admin", {
+    return sequelize.define("workspace_admin", {
         version: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -17,6 +17,4 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-    
-    return WorkspaceAdmin;
 }
