@@ -62,6 +62,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'projectId',
             as: 'project'
         });
+
+        Item.belongsTo(models.project_member, {
+            foreignKey: 'projectMemberId',
+            as: 'projectMember'
+        });
     };
 
     return Item;
