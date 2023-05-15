@@ -38,7 +38,17 @@ module.exports = (sequelize, DataTypes) => {
             // as: 'comment_annotation',
             onDelete: "cascade"
         });
+
+        CommentAnnotation.belongsTo(models.item_master, {
+            foreignKey: 'itemId',
+            as: 'item',
+        });
+
+        CommentAnnotation.belongsTo(models.user_master, {
+            foreignKey: 'userId',
+            as: 'users'
+        });
     };
-    
+
     return CommentAnnotation;
 }
