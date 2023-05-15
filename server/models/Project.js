@@ -114,13 +114,13 @@ module.exports = (sequelize, DataTypes) => {
     Project.associate = (models) => {
         Project.hasMany(models.project_member, {
             foreignKey: 'projectId',
-            // as: 'project_member',
+            as: 'projectMember',
             onDelete: "cascade"
         });
 
         Project.hasMany(models.item_master, {
             foreignKey: 'projectId',
-            // as: 'project',
+            as: 'items',
             onDelete: "cascade"
         });
 
