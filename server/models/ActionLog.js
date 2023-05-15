@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const ActionLog = sequelize.define("action_log", {
+    return sequelize.define("action_log", {
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -23,5 +23,4 @@ module.exports = (sequelize, DataTypes) => {
         },
     })
 
-    return ActionLog;
 }
