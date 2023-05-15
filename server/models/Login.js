@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Login = sequelize.define("login_master", {
+    return sequelize.define("login_master", {
         accountId: {
             type: DataTypes.STRING(100),
             unique: true,
@@ -54,6 +54,4 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     })
-    
-    return Login
 }
